@@ -46,6 +46,15 @@ export default class BasicDatatable extends LightningElement {
         }else{
             rowData = this.data[indexOfRow];
         }
+        
+        /*
+        if(event.target.checked == true){
+            this.totalSelectedBalance += rowData['balance'];
+            this.totalCheckedCount += 1;
+        }else{
+            this.totalSelectedBalance -= rowData['balance'];
+            this.totalCheckedCount -= 1;
+        }*/
         this.recalculateCosts();
         this.highlightRows();
     }
@@ -78,15 +87,35 @@ export default class BasicDatatable extends LightningElement {
             }
             newFilteredData.push(rowData);
         }
+        var selectAllCheckBoxes = this.template.querySelectorAll('[data-id="selectAllCheckbox"]');
+        var selectAllSetTo = false;
+        if(selectedRows.size == (filteredData.length + newFilteredData.length)){
+            selectAllSetTo = true;
+        }
+        for(var index=0; index < selectAllCheckBoxes.length; index++){
+            selectAllCheckBoxes[index].checked = selectAllSetTo;
+        }
         this.data = filteredData;
         this.newRows = newFilteredData;
     }
     selectDeselectAll(event){
         let checkboxIndex;
         let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]')
+        //console.log(checkboxes.length);
         for(checkboxIndex=0; checkboxIndex<checkboxes.length; checkboxIndex++) {
             checkboxes[checkboxIndex].checked = event.target.checked;
         }
+        /*
+        this.totalSelectedBalance = 0;
+        this.totalCheckedCount = 0;
+        if(event.target.checked == true){
+            for(var rowIndex=0; rowIndex<this.data.length; rowIndex++) {
+                this.totalSelectedBalance += this.data[rowIndex]['balance'];
+                this.totalCheckedCount += 1;
+            }
+        }*/
+        
+
         this.recalculateCosts();
         this.highlightRows();
     }
@@ -130,10 +159,16 @@ export default class BasicDatatable extends LightningElement {
         var newFinalData = [];
         for(var dataIndex=0; dataIndex < this.data.length; dataIndex++){
             var rowData = this.data[dataIndex];
+            if(rowData['highlighted'] == "highlightedRow"){
+                rowData['isChecked'] = true;
+            }
             newFinalData.push(rowData);
         }
         for(var dataIndex=0; dataIndex < this.newRows.length; dataIndex++){
             var rowData = this.newRows[dataIndex];
+            if(rowData['highlighted'] == "highlightedRow"){
+                rowData['isChecked'] = true;
+            }
             newFinalData.push(rowData);
         }
         this.data = newFinalData;
@@ -165,7 +200,6 @@ export default class BasicDatatable extends LightningElement {
     addNewRow(event){
         this.newIdGenerator += 1;
         var newId = this.newIdGenerator;
-        console.log(newId);
         var newRow = {"id":newId,"balance":0, "creditorName":"","firstName":"","lastName":"","minPaymentPercentage":0,"highlighted":"nonHighlightedRow"};
         var newRowsCreated = []
         for(var newRowIdx = 0; newRowIdx < this.newRows.length; newRowIdx++){
@@ -174,10 +208,25 @@ export default class BasicDatatable extends LightningElement {
         newRowsCreated.push(newRow);
         this.newRows = newRowsCreated;
         this.totalRowCount += 1;
-        console.log("Adding new Rows" );
-        console.log(this.newRows);
         this.isSaveDisabled = false;
     }
+
+    deleteRow(row) {
+        const { id } = row;
+        const index = this.findRowIndexById(id);
+        if (index !== -1) {
+            this.data = this.data
+                .slice(0, index)
+                .concat(this.data.slice(index + 1));
+        }
+        const newRowIndex = this.findNewRowIndexById(id);
+        if(newRowIndex !== -1){
+            this.newRows = this.newRows
+                .slice(0, newRowIndex)
+                .concat(this.newRows.slice(newRowIndex + 1));
+        }
+    }
+
     recalculateCosts(){
         var checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
         var selectedRows = new Set();

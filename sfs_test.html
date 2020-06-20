@@ -1,24 +1,26 @@
 <template>
     <div style="min-height: 500px; height:auto;">
+        <!-- data table start-->  
         <table class="slds-table slds-table_bordered slds-table_cell-buffer">
             <thead>
                 <tr class="slds-text-title_caps">
+                <!--header checkbox for select all-->
                     <th style="width:3.25rem;" class="slds-text-align_right">
-                        <lightning-input type="checkbox" name="selectAll" onchange={selectDeselectAll}></lightning-input>
+                        <lightning-input data-id="selectAllCheckbox" label=" " type="checkbox" name="selectAll" onchange={selectDeselectAll}></lightning-input>
                     </th>
-                    <th scope="col" style="text-align:center">
+                    <th scope="col">
                         <div class="slds-truncate" title="Creditor">Creditor</div>
                     </th>
-                    <th scope="col" style="text-align:center">
+                    <th scope="col">
                         <div class="slds-truncate" title="First Name">First Name</div>
                     </th>
-                    <th scope="col" style="text-align:center">
+                    <th scope="col">
                         <div class="slds-truncate" title="Last Name">Last Name</div>
                     </th>
-                    <th scope="col" style="text-align:center">
+                    <th scope="col" class="rightAlignedCol">
                         <div class="slds-truncate" title="Minimum Pay">Minimum Pay%</div>
                     </th>
-                    <th scope="col" style="text-align:center">
+                    <th scope="col" class="rightAlignedCol">
                         <div class="slds-truncate" title="Balance">Balance</div>
                     </th>
                 </tr>
@@ -27,29 +29,29 @@
                 <template for:each={data} for:item="rowData">
                     <tr key={rowData.id} class={rowData.highlighted}>
                         <th style="width:3.25rem;" class="slds-text-align_right">
-                            <lightning-input data-id="checkbox" type="checkbox" name={rowData.id} onchange={handleCheckBoxClick}></lightning-input>
+                            <lightning-input data-id="checkbox" checked={rowData.isChecked} label=" " type="checkbox" name={rowData.id} onchange={handleCheckBoxClick}></lightning-input>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col">
                             <div class="slds-truncate">
                                 {rowData.creditorName}
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col">
                             <div class="slds-truncate">
                                 {rowData.firstName}
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col">
                             <div class="slds-truncate">
                                 {rowData.lastName}
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col" class="rightAlignedCol">
                             <div class="slds-truncate">
-                                <lightning-formatted-number value={rowData.minPaymentPercentage} formatter="percent-fixed"></lightning-formatted-number>%
+                                <lightning-formatted-number value={rowData.minPaymentPercentage} format-style="decimal" minimum-fraction-digits="2"></lightning-formatted-number>%
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col" class="rightAlignedCol">
                             <div class="slds-truncate">
                                 <lightning-formatted-number value={rowData.balance} format-style="currency" currency-code="USD"></lightning-formatted-number>
                             </div>
@@ -59,38 +61,38 @@
                 <template for:each={newRows} for:item="newRowData">
                     <tr key={newRowData.id} class={newRowData.highlighted}>
                         <th style="width:3.25rem;" class="slds-text-align_right">
-                            <lightning-input data-id="checkbox" type="checkbox" name={newRowData.id} onchange={handleCheckBoxClick}></lightning-input>
+                            <lightning-input data-id="checkbox" label=" " checked={newRowData.isChecked} type="checkbox" name={newRowData.id} onchange={handleCheckBoxClick}></lightning-input>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col" class="fixedWidthCol">
                             <div class="slds-truncate">
-                               <lightning-input type="text" placeholder="creditor..." label="" value={newRowData.creditorName} data-id={newRowData.id} name="creditorName" onchange={updateNewRows}></lightning-input>
+                               <lightning-input type="text" placeholder="creditor..." label=" " value={newRowData.creditorName} data-id={newRowData.id} name="creditorName" onchange={updateNewRows}></lightning-input>
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
-                            <div class="slds-truncate">
-                                <lightning-input type="text" placeholder="first name..." label="" value={newRowData.firstName} data-id={newRowData.id} name="firstName" onchange={updateNewRows}></lightning-input>
+                        <th scope="col" class="fixedWidthCol">
+                            <div class="slds-truncate" >
+                                <lightning-input type="text" placeholder="first name..." label=" " value={newRowData.firstName} data-id={newRowData.id} name="firstName" onchange={updateNewRows}></lightning-input>
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col" class="fixedWidthCol">
                             <div class="slds-truncate">
-                                <lightning-input type="text" placeholder="last name..." label="" value={newRowData.lastName} data-id={newRowData.id} name="lastName" onchange={updateNewRows}></lightning-input>
+                                <lightning-input type="text" placeholder="last name..." label=" " value={newRowData.lastName} data-id={newRowData.id} name="lastName" onchange={updateNewRows}></lightning-input>
                             </div>
                         </th>
-                        <th scope="col" style="text-align:center">
+                        <th scope="col" class="fixedWidthCol">
                             <div class="slds-truncate">
-                                <lightning-input type="number" name="minPaymentPercentage" label="" value={newRowData.minPaymentPercentage} formatter="percent-fixed" data-id={newRowData.id} onchange={updateNewRows} min="0" max="100"></lightning-input>
+                                <lightning-input type="number" name="minPaymentPercentage" label=" " value={newRowData.minPaymentPercentage} formatter="percent-fixed" data-id={newRowData.id} onchange={updateNewRows} min="0" max="100"></lightning-input>
                             </div>
                         </th>
-                        <th scope="col" style="width:15rem;text-align:center;">
+                        <th scope="col">
                             <div class="slds-truncate">
-                                <lightning-input type="number" name="balance" label="" value={newRowData.balance} formatter="currency" data-id={newRowData.id} onchange={updateNewRows}></lightning-input>
+                                <lightning-input type="number" name="balance" label=" " value={newRowData.balance} formatter="currency" data-id={newRowData.id} onchange={updateNewRows}></lightning-input>
                             </div>
                         </th>
                     </tr>
                 </template>
                 <tr class="slds-text-title_caps">
-                    <td colspan="5" style="text-align: right;">Total</td>
-                    <td style="width:15rem;text-align: center;"><lightning-formatted-number value={totalSelectedBalance} format-style="currency" currency-code="USD"></lightning-formatted-number></td>
+                    <td colspan="5" class="rightAlignedCol">Total</td>
+                    <td style="width:15rem;text-align: right;"><lightning-formatted-number value={totalSelectedBalance} format-style="currency" currency-code="USD"></lightning-formatted-number></td>
                 </tr>
             </tbody>
         </table>
@@ -103,5 +105,9 @@
                 Checked Row Count:  <lightning-badge label={totalCheckedCount}></lightning-badge>
             </div>
         </lightning-card>
+        <div>
+           
+        </div>
+        
     </div>    
 </template>

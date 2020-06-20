@@ -4,3 +4,11 @@
 .nonHighlightedRow {
     background-color: #ffffff;
 }
+
+.rightAlignedCol{
+    text-align: right;
+}
+
+.fixedWidthCol{
+    width: 10rem;
+}
