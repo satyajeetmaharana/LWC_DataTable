@@ -1,10 +1,8 @@
 <template>
     <div style="min-height: 500px; height:auto;">
-        <!-- data table start-->  
         <table class="slds-table slds-table_bordered slds-table_cell-buffer">
             <thead>
                 <tr class="slds-text-title_caps">
-                <!--header checkbox for select all-->
                     <th style="width:3.25rem;" class="slds-text-align_right">
                         <lightning-input type="checkbox" name="selectAll" onchange={selectDeselectAll}></lightning-input>
                     </th>
@@ -105,9 +103,5 @@
                 Checked Row Count:  <lightning-badge label={totalCheckedCount}></lightning-badge>
             </div>
         </lightning-card>
-        <div>
-           
-        </div>
-        
     </div>    
 </template>

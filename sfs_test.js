@@ -46,15 +46,6 @@ export default class BasicDatatable extends LightningElement {
         }else{
             rowData = this.data[indexOfRow];
         }
-        
-        /*
-        if(event.target.checked == true){
-            this.totalSelectedBalance += rowData['balance'];
-            this.totalCheckedCount += 1;
-        }else{
-            this.totalSelectedBalance -= rowData['balance'];
-            this.totalCheckedCount -= 1;
-        }*/
         this.recalculateCosts();
         this.highlightRows();
     }
@@ -93,21 +84,9 @@ export default class BasicDatatable extends LightningElement {
     selectDeselectAll(event){
         let checkboxIndex;
         let checkboxes = this.template.querySelectorAll('[data-id="checkbox"]')
-        //console.log(checkboxes.length);
         for(checkboxIndex=0; checkboxIndex<checkboxes.length; checkboxIndex++) {
             checkboxes[checkboxIndex].checked = event.target.checked;
         }
-        /*
-        this.totalSelectedBalance = 0;
-        this.totalCheckedCount = 0;
-        if(event.target.checked == true){
-            for(var rowIndex=0; rowIndex<this.data.length; rowIndex++) {
-                this.totalSelectedBalance += this.data[rowIndex]['balance'];
-                this.totalCheckedCount += 1;
-            }
-        }*/
-        
-
         this.recalculateCosts();
         this.highlightRows();
     }
@@ -199,26 +178,6 @@ export default class BasicDatatable extends LightningElement {
         console.log(this.newRows);
         this.isSaveDisabled = false;
     }
-
-    deleteRow(row) {
-        const { id } = row;
-        const index = this.findRowIndexById(id);
-        if (index !== -1) {
-            this.data = this.data
-                .slice(0, index)
-                .concat(this.data.slice(index + 1));
-        }
-        const newRowIndex = this.findNewRowIndexById(id);
-        if(newRowIndex !== -1){
-            this.newRows = this.newRows
-                .slice(0, newRowIndex)
-                .concat(this.newRows.slice(newRowIndex + 1));
-        }
-    }
-    handleNewRowChange(event){
-
-    }
-
     recalculateCosts(){
         var checkboxes = this.template.querySelectorAll('[data-id="checkbox"]');
         var selectedRows = new Set();
