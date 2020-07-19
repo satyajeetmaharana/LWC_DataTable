@@ -4,4 +4,4 @@ A simple LWC datatable demo. See the demo at the live code playground: [Datatabl
 
 
 
-![Lightning Web Components Data table](/DataTable Screenshot.png "Lightning Web Components Data Table")
+![Lightning Web Components Data table Screenshot](/DataTable\ Screenshot.png)
